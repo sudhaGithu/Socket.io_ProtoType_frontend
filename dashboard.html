@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WhatsApp Clone - Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <div class="user-profile">
+          <img id="user-avatar" src="" alt="Profile">
+          <span id="username"></span>
+        </div>
+        <div class="sidebar-actions">
+          <button id="logout-btn">Logout</button>
+          <button id="new-chat-btn">New Chat</button>
+          <button id="new-group-btn">New Group</button>
+        </div>
+      </div>
+
+      <div class="search-container">
+        <input type="text" id="search-contacts" placeholder="Search contacts...">
+      </div>
+
+      <div class="chats-container">
+        <h3>Chats</h3>
+        <div class="chats-list" id="chats-list"></div>
+      </div>
+
+      <div class="contacts-container">
+        <h3>Contacts</h3>
+        <div class="contacts-list" id="contacts-list"></div>
+      </div>
+
+      <div class="groups-container">
+        <h3>Groups</h3>
+        <div class="groups-list" id="groups-list"></div>
+      </div>
+    </div>
+
+    <!-- Chat Area -->
+    <div class="chat-area">
+      <div class="chat-header">
+        <div class="chat-info">
+          <img id="chat-avatar" src="" alt="Contact">
+          <div>
+            <h3 id="chat-name">Select a chat to start messaging</h3>
+            <span id="chat-status"></span>
+          </div>
+        </div>
+        <div class="chat-actions" id="chat-actions" style="display: none;">
+          <button id="audio-call-btn">Audio Call</button>
+          <button id="video-call-btn">Video Call</button>
+        </div>
+      </div>
+
+      <div class="messages-container" id="messages-container">
+        <div class="welcome-message">
+          <h2>Welcome to WhatsApp Clone</h2>
+          <p>Select a contact or group to start chatting</p>
+        </div>
+      </div>
+
+      <div class="message-input-container" id="message-input-container" style="display: none;">
+        <input type="text" id="message-input" placeholder="Type a message...">
+        <button id="send-message-btn">Send</button>
+      </div>
+    </div>
+
+    <!-- Call Interface -->
+    <div class="call-interface" id="call-interface" style="display: none;">
+      <div class="call-container">
+        <h3 id="call-status">Calling...</h3>
+        <div id="caller-info"></div>
+        <div class="call-actions">
+          <button id="accept-call-btn">Accept</button>
+          <button id="reject-call-btn">Reject</button>
+          <button id="end-call-btn">End Call</button>
+        </div>
+        <video id="local-video" autoplay muted></video>
+        <video id="remote-video" autoplay></video>
+      </div>
+    </div>
+
+    <!-- New Chat Modal -->
+    <div class="modal" id="new-chat-modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>New Chat</h2>
+        <div id="available-contacts"></div>
+      </div>
+    </div>
+
+    <!-- New Group Modal -->
+    <div class="modal" id="new-group-modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Create New Group</h2>
+        <form id="new-group-form">
+          <div class="form-group">
+            <label for="group-name">Group Name</label>
+            <input type="text" id="group-name" required>
+          </div>
+          <div class="form-group">
+            <label for="group-description">Description</label>
+            <input type="text" id="group-description">
+          </div>
+          <div class="form-group">
+            <label>Select Participants</label>
+            <div id="group-participants"></div>
+          </div>
+          <button type="submit" class="auth-button">Create Group</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/socket.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/call.js"></script>
+</body>
+
+</html>

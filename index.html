@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Clone - Welcome</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .welcome-container {
+            max-width: 500px;
+            margin: 100px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .welcome-container h1 {
+            color: #25D366;
+            margin-bottom: 20px;
+        }
+        
+        .welcome-container p {
+            margin-bottom: 30px;
+            color: #555;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .auth-buttons a {
+            display: block;
+            padding: 12px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .auth-buttons .login-btn {
+            background-color: #25D366;
+            color: white;
+        }
+        
+        .auth-buttons .register-btn {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-container">
+        <h1>WhatsApp Clone</h1>
+        <p>Send messages, make calls, and stay connected with friends and family.</p>
+        
+        <div class="auth-buttons">
+            <a href="login.html" class="login-btn">Login to Your Account</a>
+            <a href="register.html" class="register-btn">Create New Account</a>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('token');
+            if (token) {
+                window.location.href = 'chat.html';
+            }
+        });
+    </script>
+</body>
+</html>

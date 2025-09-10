@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Clone</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-profile">
+                    <img id="user-avatar" src="" alt="Profile">
+                    <span id="username"></span>
+                </div>
+                <div class="sidebar-actions">
+                    <button id="new-chat-btn">New Chat</button>
+                    <button id="new-group-btn">New Group</button>
+                </div>
+            </div>
+
+            <div class="search-container">
+                <input type="text" id="search-contacts" placeholder="Search contacts...">
+            </div>
+
+            <h3>chats</h3>
+            <div class="contacts-list" id="contacts-list">
+                <!-- Contacts will be populated here -->
+            </div>
+
+            <h3>Groups</h3>
+            <div class="groups-list" id="groups-list">
+                <!-- Groups will be populated here -->
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-area">
+            <div class="chat-header">
+                <div class="chat-info">
+                    <img id="chat-avatar" src="" alt="Contact">
+                    <div>
+                        <h3 id="chat-name"></h3>
+                        <span id="chat-status"></span>
+                    </div>
+                </div>
+                <div class="chat-actions">
+                    <button id="audio-call-btn">Audio Call</button>
+                    <button id="video-call-btn">Video Call</button>
+                </div>
+            </div>
+
+            <div class="messages-container" id="messages-container">
+                <!-- Messages will be displayed here -->
+            </div>
+
+            <div class="message-input-container">
+                <input type="text" id="message-input" placeholder="Type a message...">
+                <button id="send-message-btn">Send</button>
+            </div>
+        </div>
+
+        <!-- Call Interface (initially hidden) -->
+        <div class="call-interface" id="call-interface" style="display: none;">
+            <div class="call-container">
+                <h3 id="call-status">Calling...</h3>
+                <div id="caller-info"></div>
+                <div class="call-actions">
+                    <button id="accept-call-btn">Accept</button>
+                    <button id="reject-call-btn">Reject</button>
+                    <button id="end-call-btn">End Call</button>
+                </div>
+                <video id="local-video" autoplay muted></video>
+                <video id="remote-video" autoplay></video>
+            </div>
+        </div>
+    </div>
+
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/socket.js"></script>
+    <script src="js/call.js"></script>
+</body>
+
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Clone</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="user-profile">
+                    <img id="user-avatar" src="" alt="Profile">
+                    <span id="username"></span>
+                </div>
+                <div class="sidebar-actions">
+                    <button id="logout-btn">Logout</button>
+                    <button id="new-chat-btn">New Chat</button>
+                    <button id="new-group-btn">New Group</button>
+                </div>
+            </div>
+
+            <div class="search-container">
+                <input type="text" id="search-contacts" placeholder="Search contacts...">
+            </div>
+
+            <div class="chats-container">
+                <h3>Chats</h3>
+                <div class="chats-list" id="chats-list">
+                    <!-- Chats will be populated here -->
+                </div>
+            </div>
+
+            <div class="contacts-container">
+                <h3>Contacts</h3>
+                <div class="contacts-list" id="contacts-list">
+                    <!-- Contacts will be populated here -->
+                </div>
+            </div>
+
+            <div class="groups-container">
+                <h3>Groups</h3>
+                <div class="groups-list" id="groups-list">
+                    <!-- Groups will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-area">
+            <div class="chat-header">
+                <div class="chat-info">
+                    <img id="chat-avatar" src="" alt="Contact">
+                    <div>
+                        <h3 id="chat-name">Select a chat to start messaging</h3>
+                        <span id="chat-status"></span>
+                    </div>
+                </div>
+                <div class="chat-actions" id="chat-actions" style="display: none;">
+                    <button id="audio-call-btn">Audio Call</button>
+                    <button id="video-call-btn">Video Call</button>
+                </div>
+            </div>
+
+            <div class="messages-container" id="messages-container">
+                <div class="welcome-message">
+                    <h2>Welcome to WhatsApp Clone</h2>
+                    <p>Select a contact or group to start chatting</p>
+                </div>
+            </div>
+
+            <div class="message-input-container" id="message-input-container" style="display: none;">
+                <input type="text" id="message-input" placeholder="Type a message...">
+                <button id="send-message-btn">Send</button>
+            </div>
+        </div>
+
+        <!-- Call Interface (initially hidden) -->
+        <div class="call-interface" id="call-interface" style="display: none;">
+            <div class="call-container">
+                <h3 id="call-status">Calling...</h3>
+                <div id="caller-info"></div>
+                <div class="call-actions">
+                    <button id="accept-call-btn">Accept</button>
+                    <button id="reject-call-btn">Reject</button>
+                    <button id="end-call-btn">End Call</button>
+                </div>
+                <video id="local-video" autoplay muted></video>
+                <video id="remote-video" autoplay></video>
+            </div>
+        </div>
+
+        <!-- New Chat Modal -->
+        <div class="modal" id="new-chat-modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>New Chat</h2>
+                <div id="available-contacts">
+                    <!-- Available contacts will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- New Group Modal -->
+        <div class="modal" id="new-group-modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Create New Group</h2>
+                <form id="new-group-form">
+                    <div class="form-group">
+                        <label for="group-name">Group Name</label>
+                        <input type="text" id="group-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="group-description">Description (Optional)</label>
+                        <input type="text" id="group-description">
+                    </div>
+                    <div class="form-group">
+                        <label>Select Participants</label>
+                        <div id="group-participants">
+                            <!-- Available contacts for group will be populated here -->
+                        </div>
+                    </div>
+                    <button type="submit" class="auth-button">Create Group</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/socket.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/call.js"></script>
+
+    <script>
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log("chatui", typeof ChatUI, "sockettype", typeof socketClient);
+
+            // Load user data
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            if (userData) {
+                document.getElementById('user-avatar').src = userData.profilePicture || 'default-avatar.png';
+                document.getElementById('username').textContent = userData.username;
+            }
+
+            // Logout button
+            document.getElementById('logout-btn').addEventListener('click', function () {
+                authManager.logout();
+            });
+
+            // Modal functionality
+            const modals = document.querySelectorAll('.modal');
+            const closeButtons = document.querySelectorAll('.close');
+
+            // New chat button
+            document.getElementById('new-chat-btn').addEventListener('click', function () {
+                document.getElementById('new-chat-modal').style.display = 'block';
+                loadAvailableContacts();
+            });
+
+            // New group button
+            document.getElementById('new-group-btn').addEventListener('click', function () {
+                document.getElementById('new-group-modal').style.display = 'block';
+                loadAvailableContactsForGroup();
+            });
+
+            // Close modals
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    modals.forEach(modal => {
+                        modal.style.display = 'none';
+                    });
+                });
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', function (event) {
+                modals.forEach(modal => {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+
+            // New group form submission
+            document.getElementById('new-group-form').addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const name = document.getElementById('group-name').value;
+                const description = document.getElementById('group-description').value;
+                const selectedParticipants = Array.from(document.querySelectorAll('.participant-checkbox:checked'))
+                    .map(checkbox => checkbox.value);
+
+                try {
+                      // ✅ Get token and userId from localStorage
+                const token = localStorage.getItem('token');
+                const userData = JSON.parse(localStorage.getItem('userData'));
+                const userId = userData?._id;  // Adjust if your field name is different
+                    const response = await fetch('http://localhost:3000/api/chat/groups', {
+                        method: 'POST',
+                        headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                        body: JSON.stringify({
+                            name,
+                            description,
+                            participants: selectedParticipants
+                        })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        // Close modal and reload groups
+                        document.getElementById('new-group-modal').style.display = 'none';
+                        if (typeof ChatUI !== 'undefined') {
+                            window.chatUI.loadGroups();
+                        }
+                    } else {
+                        console.error('Failed to create group');
+                    }
+                } catch (error) {
+                    console.error('Error creating group:', error);
+                }
+            });
+
+            // Connect socket and initialize UI
+            if (typeof socketClient !== 'undefined') {
+                socketClient.connect();
+                console.log("Socket client connected");
+            }
+
+            if (typeof ChatUI !== 'undefined') {
+                window.chatUI = new ChatUI();
+                console.log("ChatUI initialized");
+            }
+        });
+
+        // Function to load available contacts for new chat
+        async function loadAvailableContacts() {
+            try {
+                // ✅ Get token and userId from localStorage
+                const token = localStorage.getItem('token');
+                const userData = JSON.parse(localStorage.getItem('userData'));
+                const userId = userData?._id;  // Adjust if your field name is different
+
+                // ✅ Send token in headers and userId as query param
+                const response = await fetch(`http://localhost:3000/api/auth/users`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const contacts = data.users || [];   // ✅ Use the "users" array
+
+                    console.log('Contacts:', contacts);
+
+                    const contactsContainer = document.getElementById('available-contacts');
+                    contactsContainer.innerHTML = '';
+
+                    contacts.forEach(contact => {
+                        const contactElement = document.createElement('div');
+                        contactElement.className = 'contact-item';
+                        contactElement.innerHTML = `
+                    <img src="${contact.profilePicture || 'default-avatar.png'}" alt="${contact.username}">
+                    <div class="contact-info">
+                        <div class="contact-name">${contact.username}</div>
+                    </div>
+                `;
+
+                        contactElement.addEventListener('click', function () {
+                            if (typeof ChatUI !== 'undefined') {
+                                window.chatUI.selectChat(contact, false); // ✅ Correct
+
+                            }
+                            document.getElementById('new-chat-modal').style.display = 'none';
+                        });
+
+                        contactsContainer.appendChild(contactElement);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading contacts:', error);
+            }
+        }
+
+
+        // Function to load available contacts for new group
+        async function loadAvailableContactsForGroup() {
+            try {
+                // ✅ Get token and userId from localStorage
+                const token = localStorage.getItem('token');
+                const userData = JSON.parse(localStorage.getItem('userData'));
+                const userId = userData?._id;  // Adjust if your field name is different
+                const response = await fetch('http://localhost:3000/api/auth/users', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const contacts = data.users || [];
+                    const participantsContainer = document.getElementById('group-participants');
+                    participantsContainer.innerHTML = '';
+
+                    contacts.forEach(contact => {
+                        const participantElement = document.createElement('div');
+                        participantElement.className = 'participant-item';
+                        participantElement.innerHTML = `
+                            <input type="checkbox" class="participant-checkbox" value="${contact._id}">
+                            <img src="${contact.profilePicture || 'default-avatar.png'}" alt="${contact.username}">
+                            <span>${contact.username}</span>
+                        `;
+
+                        participantsContainer.appendChild(participantElement);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading contacts for group:', error);
+            }
+        }
+    </script>
+
+    <style>
+        /* Additional styles for modals and other elements */
+        .modal {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+            max-width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+
+        .close {
+            float: right;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .participant-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .participant-item img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin: 0 10px;
+        }
+
+        .welcome-message {
+            text-align: center;
+            padding: 50px 20px;
+            color: #666;
+        }
+
+        .chats-container,
+        .contacts-container,
+        .groups-container {
+            margin-bottom: 20px;
+        }
+
+        .chats-container h3,
+        .contacts-container h3,
+        .groups-container h3 {
+            padding: 10px 15px;
+            background-color: #f0f0f0;
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</body>
+
+</html>
