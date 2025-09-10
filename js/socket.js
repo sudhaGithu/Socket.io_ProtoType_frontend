@@ -1,3 +1,4 @@
+const apiUrl = import.meta.env.VITE_API_URL;
 class SocketClient {
     constructor() {
         this.socket = null;
@@ -11,7 +12,7 @@ class SocketClient {
             return;
         }
 
-        this.socket = io("http://localhost:3000", {
+        this.socket = io(`${apiUrl}`, {
             auth: {
                 token: this.token
             }

@@ -1,3 +1,4 @@
+const apiUrl = import.meta.env.VITE_API_URL;
 class CallManager {
     constructor() {
         this.localStream = null;

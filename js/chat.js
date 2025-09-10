@@ -1,3 +1,4 @@
+const apiUrl = import.meta.env.VITE_API_URL;
 class ChatUI {
     constructor() {
         this.currentChat = null;
@@ -55,7 +56,7 @@ class ChatUI {
     
     async loadContacts() {
         try {
-            const response = await fetch('http://localhost:3000/api/auth/users', {
+            const response = await fetch(`${apiUrl}/api/auth/users`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -74,7 +75,7 @@ class ChatUI {
     
     async loadGroups() {
         try {
-            const response = await fetch('http://localhost:3000/api/chat/groups', {
+            const response = await fetch(`${apiUrl}/api/chat/groups`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -162,8 +163,8 @@ class ChatUI {
     async loadMessages() {
         try {
             const url = this.isGroupChat ? 
-                `http://localhost:3000/api/chat/messages?groupId=${this.currentChat._id}` :
-                `http://localhost:3000/api/chat/messages?receiverId=${this.currentChat._id}`;
+                `${apiUrl}/api/chat/messages?groupId=${this.currentChat._id}` :
+                `${apiUrl}/api/chat/messages?receiverId=${this.currentChat._id}`;
             console.log("Loading messages from:", url);
             console.log("currentchat",this.currentChat._id);
             

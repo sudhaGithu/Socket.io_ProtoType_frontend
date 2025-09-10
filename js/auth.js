@@ -1,3 +1,4 @@
+const apiUrl = import.meta.env.VITE_API_URL;
 class AuthManager {
     constructor() {
         this.token = localStorage.getItem('token');
@@ -31,7 +32,7 @@ class AuthManager {
         if (!this.isAuthenticated()) return;
         
         try {
-            await fetch('http://localhost:3000/api/users/status', {
+            await fetch(`${apiUrl}/api/users/status`, {
                 method: 'PATCH',
                 headers: this.getAuthHeader(),
                 body: JSON.stringify({ online })
@@ -45,7 +46,7 @@ class AuthManager {
         if (!this.isAuthenticated()) return;
         
         try {
-            const response = await fetch('http://localhost:3000/api/users/profile', {
+            const response = await fetch(`${apiUrl}/api/users/profile`, {
                 method: 'PATCH',
                 headers: this.getAuthHeader(),
                 body: JSON.stringify(updates)
